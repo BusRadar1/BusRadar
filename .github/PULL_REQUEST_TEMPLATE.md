@@ -1,50 +1,28 @@
-## Context
-
-<!-- Why is this change needed? -->
-
-
-
 Closes #
-
-
 
 ## What Changed
 
-<!-- The technical changes and any design decisions made in this PR. -->
+<!-- What and why, in a few bullets. -->
+
+
 
 - 
 
 - 
-
-
 
 ## How to Test
 
-<!-- Steps for the reviewer to verify the change locally. -->
+<!-- Steps for the reviewer. For frontend: add a screenshot. -->
 
 1. 
 
 
 
-## Screenshots
-
-<!-- Frontend changes only. Delete this section otherwise. -->
-
-
-
 ## Checklist
 
-- [ ] PR title follows Conventional Commits (it becomes the commit on `main`)
-
-- [ ] Tests added or updated, and passing locally
-
-- [ ] Application builds and starts with `docker compose up`
-
-- [ ] Documentation / ADR updated, or not needed
+- [ ] Tests added or updated, or not needed
 
 - [ ] No secrets, tokens or `.env` values committed
-
-
 
 ## AI Usage
 

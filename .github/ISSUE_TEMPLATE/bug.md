@@ -9,16 +9,11 @@ assignees: ''
 ## Description
 <!-- A clear and concise description of the bug. -->
 
+
+
 ## Steps to Reproduce
 1. 
-2. 
-3. 
 
 ## Expected Behavior
-<!-- What should happen? -->
+<!-- What should happen instead? Optional: where (local / server, branch). -->
 
-## Actual Behavior
-<!-- What happens instead? Include logs, stack traces or screenshots. -->
-
-## Environment
-<!-- local (docker compose) / server; branch or commit; browser if frontend. -->

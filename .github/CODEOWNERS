@@ -1,3 +1,23 @@
-# Tymczasowo: cały zespół jest właścicielem wszystkiego.
-# Rozbijemy to na obszary, gdy ustalimy strukturę katalogów.
-* @jakub-jurkian @Kackor11 @TomaszDylik @HolySsquirrell'
+# Event Streaming & Real-time: Jakub, backup Kacper
+/backend/libs/events/                 @jakub-jurkian @Kackor11
+/backend/services/tracking-service/   @jakub-jurkian @Kackor11
+
+# Frontend: Jakub, backup Tomasz
+/frontend/                            @jakub-jurkian @TomaszDylik
+
+# Data & Analytics: Kacper, backup Marcel
+/backend/services/stats-service/      @Kackor11 @HolySsquirrell
+
+# Integration with ZTM API: Marcel, backup Kacper
+/backend/services/ingest-service/     @HolySsquirrell @Kackor11
+/fixtures/                            @HolySsquirrell @Kackor11
+
+# Infrastructure & quality: Marcel, backup: Tomasz
+/infra/                               @HolySsquirrell @TomaszDylik
+/.github/                             @HolySsquirrell @TomaszDylik
+/backend/build-logic/                 @HolySsquirrell @TomaszDylik
+/scripts/                             @HolySsquirrell @TomaszDylik
+
+# Users & Security: Tomasz, backup: Jakub
+/backend/services/trips-service/      @TomaszDylik @jakub-jurkian
+/infra/keycloak/                      @TomaszDylik @jakub-jurkian

@@ -80,3 +80,6 @@ tmp/
 temp/
 *.tmp
 *.bak
+
+# python script
+zadania_github.xlsx

@@ -20,5 +20,5 @@ assignees: ''
 
 
 ## Notes
-<!-- Optional: technical hints, links to ADRs, dependencies (Blocked by #...),
-size (S ≤ 1 evening / M 2–3 evenings). Delete if empty. -->
+<!-- size (S - 0.5-2h,  M - 2.5-4h,  L - 4.5-6h) -->
+<!-- Optional: technical hints, links to ADRs, dependencies (Blocked by #...) -->

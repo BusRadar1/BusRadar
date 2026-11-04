@@ -31,7 +31,7 @@ Podział uwzględnia zainteresowania zespołu: Jakub rozwija się w kierunku prz
 
 - Rozpisuje prace ze swojego obszaru na zadania i dba, żeby na tablicy były zadania gotowe do wzięcia.
 
-- Jest obowiązkowym recenzentem pull requestów zmieniających jego obszar.
+- Jest głównym recenzentem pull requestów zmieniających jego obszar (wystarczy akceptacja właściciela albo zastępcy).
 
 - Odpowiada na pytania i pomaga osobom, które biorą zadania z jego obszaru.
 
@@ -41,7 +41,7 @@ Podział uwzględnia zainteresowania zespołu: Jakub rozwija się w kierunku prz
 
 - Zna obszar na tyle, żeby samodzielnie brać z niego zadania.
 
-- Może zatwierdzać pull requesty w obszarze, gdy właściciel nie odpowie w ciągu 48 godzin albo do środy 14:00.
+- Może zatwierdzać pull requesty w obszarze bez czekania na właściciela, a gdy autorem jest właściciel, robi review zamiast niego.
 
 - Przejmuje decyzje w obszarze podczas nieobecności właściciela.
 
@@ -55,51 +55,63 @@ Podział uwzględnia zainteresowania zespołu: Jakub rozwija się w kierunku prz
 
 ## 4. Praca z zadaniami
 
-Zadania prowadzimy na tablicy w GitHub Projects. Każde zadanie ma etykietę obszaru i trwa od jednego do trzech wieczorów pracy; większe dzielimy.
+Zadania prowadzimy na tablicy w GitHub Projects. Każde zadanie ma jedną etykietę obszaru i jedną etykietę typu oraz mieści się w ok. 6 godzinach pracy; większe dzielimy.
 
 ### Kolumny tablicy
 
 1.  **Backlog**: pomysły i ogólne punkty, jeszcze nierozpisane.
 
-2.  **Gotowe do wzięcia**: zadania spełniające Definition of Ready.
+2.  **To Do**: zadania spełniające Definition of Ready.
 
-3.  **W toku**: zadanie ma przypisaną osobę.
+3.  **In Progress**: zadanie ma przypisaną osobę.
 
-4.  **Review**: otwarty pull request czeka na przegląd.
+4.  **In Review**: otwarty pull request czeka na przegląd.
 
-5.  **Zrobione**: zadanie spełnia Definition of Done.
+5.  **Done**: zadanie spełnia Definition of Done.
+
+Kartę z Backlog do To Do przesuwa ręcznie właściciel obszaru. Do In Progress (po przypisaniu osoby do issue) i do In Review (po otwarciu pull requesta) karta przechodzi automatycznie, a do Done po scaleniu pull requesta. Szczegóły: `CONTRIBUTING.md` i `workflow-example.md`.
 
 ### Zasady
 
-- Zadanie bierzesz, przypisując się do niego na tablicy, zanim zaczniesz pracę.
+- Zadanie bierzesz, przypisując się do issue, zanim zaczniesz pracę.
 
-- Jedna osoba ma naraz najwyżej dwa zadania w kolumnie „W toku”.
+- Jedna osoba ma naraz najwyżej dwa zadania w kolumnie „In Progress”.
 
 - Każdy uczestnik pracuje głównie w swoich obszarach, ale co dwa tygodnie bierze co najmniej jedno zadanie z obszaru innej osoby.
 
 - Jeśli zadanie stoi w miejscu dłużej niż tydzień, osoba zgłasza to na Discordzie, żeby zespół mógł pomóc albo przejąć zadanie.
 
+- Czas pracy i czas review wpisujemy na karcie zadania (pola „Spent time (h)” i „Review time (h)”, zob. `CONTRIBUTING.md`, sekcja 12).
+
 ### Definition of Ready
 
-Zadanie trafia do kolumny „Gotowe do wzięcia”, gdy:
+Zadanie trafia do kolumny „To Do”, gdy:
 
-- ma jasny opis i warunek „gotowe, gdy…”,
+- opis mówi, co trzeba zrobić i dlaczego,
+
+- ma jasne kryteria akceptacji („gotowe, gdy…”),
+
+- ma jedną etykietę `area:` i jedną `type:`,
 
 - nie zależy od niezrobionej pracy albo zależność zastępuje atrapa (mock, nagrany plik danych, przykładowa odpowiedź z OpenAPI),
 
-- właściciel obszaru je zaakceptował.
+- mieści się w 6 godzinach pracy; większe zadania dzielimy.
 
 ### Definition of Done
 
 Zadanie jest zrobione, gdy:
 
-- pull request przeszedł review właściciela obszaru (lub zastępcy),
+- kryteria akceptacji są spełnione,
 
-- testy przechodzą w CI, a nowa logika ma testy,
+- pull request zatwierdził właściciel obszaru albo zastępca (przy `docs` i `chore`: dowolna osoba z zespołu),
 
-- zmiana jest scalona do `main` i wdrożona na serwer,
+- CI jest zielone, a nowa logika ma testy,
 
-- dokumentacja (README, OpenAPI, ADR) jest aktualna, jeśli zmiana jej dotyczy.
+- zmiana jest scalona do `main` i wdrożona,
+
+- dokumentacja (README, OpenAPI, ADR) jest aktualna, jeśli zmiana jej dotyczy,
+
+- czas pracy i review jest wpisany na karcie.
 
 ## 5. Decyzje, ADR i przegląd kodu
 
@@ -119,9 +131,9 @@ Kluczowe decyzje zapisujemy jako krótkie dokumenty ADR (Architecture Decision R
 
 - Każda zmiana trafia do `main` przez pull request; bezpośredni push do `main` jest zablokowany.
 
-- Pull request wymaga akceptacji właściciela obszaru. Wymusza to plik `CODEOWNERS`, który przypisuje katalogi repozytorium do właścicieli.
+- Pull request wymaga akceptacji właściciela obszaru albo zastępcy. Wymusza to plik `CODEOWNERS`, który przypisuje katalogi repozytorium do obu.
 
-- Gdy właściciel nie odpowie w ciągu 48 godzin albo do środy 14:00, pull request może zatwierdzić zastępca.
+- Review robimy w miarę możliwości w ciągu 24 godzin, najpóźniej w ciągu 48 godzin; pull requesty otwarte do wtorku 22:00 muszą być przejrzane do środy 14:00. Gdy autor jest właścicielem obszaru, review robi zastępca. Zadania `docs` i `chore` może zatwierdzić dowolna osoba z zespołu.
 
 - Pull request ma krótki opis: co zmienia, jak to sprawdzić, z którym zadaniem jest powiązany.
 
@@ -151,7 +163,7 @@ Spotkanie prowadzi team lead i trzyma się limitu 1,5 godziny.
 
 3.  **Decyzje (ok. 20 min):** sprawy między obszarami, kontrakty, ADR do akceptacji.
 
-4.  **Plan na tydzień (ok. 20 min):** każdy bierze zadania z kolumny „Gotowe do wzięcia” i mówi, co dowiezie na kolejną środę.
+4.  **Plan na tydzień (ok. 20 min):** każdy bierze zadania z kolumny „To Do” i mówi, co dowiezie na kolejną środę.
 
 5.  **Retrospektywa (co drugie spotkanie, ok. 10 min):** co działa, co poprawiamy.
 
@@ -159,7 +171,7 @@ Po spotkaniu team lead wrzuca na Discorda krótką notatkę: podjęte decyzje i 
 
 ### Zasada: nie przychodzimy z pustymi rękami
 
-- Na każdą środę każdy ma co najmniej jedno zadanie w kolumnie „Review” lub „Zrobione”.
+- Na każdą środę każdy ma co najmniej jedno zadanie w kolumnie „In Review” lub „Done”.
 
 - Zadania na tydzień dobierasz do czasu, który realnie masz. Lepiej jedno małe zadanie dowiezione niż trzy rozgrzebane. Tydzień z mniejszą dostępnością (kolokwia, praca) zgłaszasz już na środowym spotkaniu.
 
@@ -179,7 +191,7 @@ Po spotkaniu team lead wrzuca na Discorda krótką notatkę: podjęte decyzje i 
 
 Discord służy do rozmowy, nie do dokumentacji. Ustalenia, które dotyczą innych osób, zapisujemy w opisie zadania albo w ADR.
 
-### Etapy
+<!-- ### Etapy
 
 Tygodnie łączymy w etapy zgodne z kamieniami milowymi z karty projektu.
 
@@ -240,4 +252,4 @@ Celem etapu 1 jest najprostsza wersja całego przepływu danych, wdrożona na se
 
 Każdy obszar dokłada do szkieletu swój minimalny kawałek, bez obsługi błędów i bez dopracowania. Gdy szkielet działa od końca do końca, właściciele obszarów rozpisują kolejne zadania, a każdy może pracować równolegle na sprawdzonej architekturze.
 
-Backlog rozpisujemy stopniowo: szczegółowo tylko na najbliższe dwa tygodnie, a dalsze prace jako ogólne punkty, które właściciel obszaru dzieli na zadania przed środowym spotkaniem.
+Backlog rozpisujemy stopniowo: szczegółowo tylko na najbliższe dwa tygodnie, a dalsze prace jako ogólne punkty, które właściciel obszaru dzieli na zadania przed środowym spotkaniem. -->

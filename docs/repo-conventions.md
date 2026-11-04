@@ -2,7 +2,7 @@
 
 Ten dokument opisuje narzędzia, strukturę repozytorium i konwencje, z którymi zespół startuje w etapie 0. Na start wystarczy to minimum; resztę doprecyzowujemy na retrospektywach.
 
-> **Status: propozycja.** Wersje narzędzi i strukturę katalogów zespół zatwierdza w ADR-000 po ustaleniu architektury.
+> **Status: propozycja.** Wersje narzędzi i strukturę katalogów zespół zatwierdza w ADR-001 po ustaleniu architektury.
 
 ## 1. Wersje i narzędzia
 
@@ -37,7 +37,7 @@ busradar/
 │   ├── gradle/libs.versions.toml      # wszystkie wersje w jednym miejscu
 │   ├── build-logic/                   # wspólna konfiguracja (convention plugins)
 │   ├── libs/
-│   │   └── events/                    # rekordy zdarzeń + nazwy topików (kontrakt z ADR-001)
+│   │   └── events/                    # rekordy zdarzeń + nazwy topików (kontrakt z ADR-002)
 │   └── services/
 │       ├── ingest-service/
 │       ├── tracking-service/          # tracking + detektor przejazdów
@@ -49,6 +49,7 @@ busradar/
 │   ├── keycloak/realm-export.json
 │   └── .env.example
 ├── fixtures/ztm/                      # nagrane dane z API ZTM
+├── scripts/                           # skrypty pomocnicze (np. odtwarzanie nagranych danych)
 ├── docs/
 │   ├── adr/
 │   └── ...                            # karta, model pracy, przebieg systemu
@@ -75,12 +76,12 @@ Gałąź nazywamy według wzoru **`<typ>/<nr-issue>-<krótki-opis>`**: małe lit
 
 | Typ | Kiedy | Przykład |
 | --- | --- | --- |
-| `feature/` | nowa funkcja | `feature/12-kafka-topics` |
-| `fix/` | błąd | `fix/34-duplicate-positions` |
-| `chore/` | konfiguracja, zależności, CI | `chore/5-ci-pipeline` |
-| `docs/` | dokumentacja, ADR | `docs/8-adr-001-events` |
-| `refactor/` | zmiana bez nowej funkcji | `refactor/41-stats-queries` |
-| `test/` | same testy | `test/27-ingest-wiremock` |
+| `feature/` | nowa funkcja | `feature/X-kafka-topics` |
+| `fix/` | błąd | `fix/X-duplicate-positions` |
+| `chore/` | konfiguracja, zależności, CI | `chore/X-ci-pipeline` |
+| `docs/` | dokumentacja, ADR | `docs/X-adr-002-events` |
+| `refactor/` | zmiana bez nowej funkcji | `refactor/X-stats-queries` |
+| `test/` | same testy | `test/X-ingest-wiremock` |
 
 - Typy gałęzi odpowiadają typom w Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`).
 - Numer issue w nazwie pozwala GitHubowi połączyć pull request z zadaniem na tablicy.
@@ -146,7 +147,7 @@ services:
       retries: 10
 
   kafka:
-    image: apache/kafka:4.1.0
+    image: apache/kafka:4.3.0
     healthcheck:
       test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1"]
       interval: 10s
@@ -171,37 +172,40 @@ Keycloak ma health checki po ustawieniu `KC_HEALTH_ENABLED=true` (osobny port 90
 
 ## 7. ADR
 
-Kluczowe decyzje zapisujemy jako krótkie dokumenty ADR w katalogu `docs/adr/`, w plikach `NNNN-tytul.md`. Status zmienia się na „zaakceptowany” na środowym spotkaniu. Zaakceptowanego ADR nie edytujemy: zmiana decyzji to nowy ADR, który zastępuje stary.
+Kluczowe decyzje zapisujemy jako krótkie dokumenty ADR w katalogu `docs/adr/`, w plikach `NNN-tytul.md`. Dokumenty ADR piszemy po angielsku. Status zmienia się z `Proposed` na `Accepted` na środowym spotkaniu. Zaakceptowanego ADR nie edytujemy: zmiana decyzji to nowy ADR, który zastępuje stary.
 
-### Szablon: `docs/adr/0000-template.md`
+### Szablon: `docs/adr/000-template.md`
 
 ```markdown
 # ADR-NNN: Tytuł decyzji
 
-- Status: proponowany | zaakceptowany | zastąpiony przez ADR-XXX
-- Data: RRRR-MM-DD
-- Autor: imię (obszar)
+- **Status:** Proposed | Accepted | Superseded by ADR-XXX
+- **Date:** YYYY-MM-DD
+- **Author:** Name (area)
+- **Deciders:** team, accepted at the meeting on YYYY-MM-DD
 
-## Kontekst
-Jaki problem rozwiązujemy i jakie mamy ograniczenia.
+## Context
+What problem are we solving and what constraints do we have.
 
-## Decyzja
-Co wybieramy, w 2–5 zdaniach.
+## Decision
+What we choose, in 2–5 sentences.
 
-## Rozważane alternatywy
-- Opcja A: zalety, wady
-- Opcja B: zalety, wady
+## Considered Options
+- Option A: pros, cons
+- Option B: pros, cons
 
-## Konsekwencje
-Co ta decyzja ułatwia, co utrudnia, co trzeba będzie zrobić.
+## Consequences
+What becomes easier, what becomes harder, what we need to do next.
+
+## References
 ```
 
 ### Pierwsze ADR-y
 
 | Nr | Tytuł | Obszar | Termin |
 | --- | --- | --- | --- |
-| ADR-000 | Struktura repozytorium i narzędzia: monorepo, Gradle z Kotlin DSL, Java 25, Spring Boot 4.1, Angular 22, Node 24 | Infrastruktura i jakość | po ustaleniu architektury |
-| ADR-001 | Topiki Kafki i format zdarzeń: `vehicle-positions`, `stop-passages`, klucze, partycje, retencja, dead-letter topic | Strumień zdarzeń | etap 0 |
-| ADR-002 | Dlaczego Kafka: alternatywy RabbitMQ, Redis Streams, PostgreSQL jako kolejka | Strumień zdarzeń | etap 0–1 |
-| ADR-003 | Wykrywanie przejazdów przez przystanki: promień, odczyty przed i po przystanku, pojazd stojący na pętli | Strumień zdarzeń, z Dane i analityka | etap 1 |
-| ADR-004 | Schemat bazy: partycje dzienne, retencja 14 dni, tabela `stop_passages` | Dane i analityka | etap 1 |
+| ADR-001 | Struktura repozytorium i narzędzia: monorepo, Gradle z Kotlin DSL, Java 25, Spring Boot 4.1, Angular 22, Node 24 | Infrastruktura i jakość | po ustaleniu architektury |
+| ADR-002 | Topiki Kafki i format zdarzeń: `vehicle-positions`, `stop-passages`, klucze, partycje, retencja, dead-letter topic | Strumień zdarzeń | etap 0 |
+| ADR-003 | Dlaczego Kafka: alternatywy RabbitMQ, Redis Streams, PostgreSQL jako kolejka | Strumień zdarzeń | etap 0–1 |
+| ADR-004 | Wykrywanie przejazdów przez przystanki: promień, odczyty przed i po przystanku, pojazd stojący na pętli | Strumień zdarzeń, z Dane i analityka | etap 1 |
+| ADR-005 | Schemat bazy: partycje dzienne, retencja 14 dni, tabela `stop_passages` | Dane i analityka | etap 1 |

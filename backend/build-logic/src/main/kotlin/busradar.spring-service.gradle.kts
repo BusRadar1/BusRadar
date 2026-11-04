@@ -1,9 +1,15 @@
 import org.gradle.api.tasks.SourceSetContainer
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     id("busradar.java-library")
     id("org.springframework.boot")
+}
+
+dependencies {
+    implementation(platform(SpringBootPlugin.BOM_COORDINATES))
+    testImplementation(platform(SpringBootPlugin.BOM_COORDINATES))
 }
 
 val mainSourceSet = extensions.getByType<SourceSetContainer>().named("main")

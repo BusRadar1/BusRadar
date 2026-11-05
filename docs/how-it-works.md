@@ -1,4 +1,4 @@
-# BusRadar Gdańsk — jak działa aplikacja
+# Jak działa aplikacja: BusRadar Gdańsk
 
 ## W skrócie
 

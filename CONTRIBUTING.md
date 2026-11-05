@@ -27,25 +27,27 @@ Backlog ──▶ To Do ──▶ In Progress ──▶ In Review ──▶ Done
 |-|-|-|
 |**Backlog**|Pomysły, przyszłe zadania i funkcje opcjonalne, jeszcze nie zaplanowane.|każdy|
 |**To Do**|Zadania na bieżący etap, które spełniają *Definition of Ready* i można je wziąć.|właściciel obszaru|
-|**In Progress**|Ktoś aktywnie pracuje nad zadaniem.|osoba przypisana|
-|**In Review**|Kod jest gotowy, Pull Request czeka na review.|osoba przypisana|
+|**In Progress**|Ktoś aktywnie pracuje nad zadaniem.|automatycznie (po przypisaniu osoby do issue)|
+|**In Review**|Kod jest gotowy, Pull Request czeka na review.|automatycznie (po otwarciu PR)|
 |**Done**|PR jest zatwierdzony i scalony do `main`; zadanie spełnia *Definition of Done*.|automatycznie (merge PR zamyka issue)|
+
+Ręcznie przesuwamy tylko kartę z **Backlog** do **To Do**, bo to decyzja właściciela obszaru (*Definition of Ready*). Pozostałe przejścia robi automat (konfiguracja: `docs/workflow-example.md`, sekcja „Jednorazowa konfiguracja tablicy”).
 
 ### Krok po kroku
 
 1. **Załóż issue** z jednego z szablonów (feature, bug, task). Dodaj dokładnie jedną etykietę `area:` i jedną `type:`. Nowe issue trafia do **Backlog**.
 2. **Doprecyzowanie.** Właściciel obszaru sprawdza issue według *Definition of Ready* i przesuwa je do **To Do**.
-3. **Weź zadanie.** Przypisz się, przesuń kartę do **In Progress** i utwórz gałąź:
+3. **Weź zadanie.** Przypisz się do issue (karta sama przejdzie do **In Progress**) i utwórz gałąź, np:
 `git switch -c feature/12-kafka-topics`
 Naraz możesz mieć najwyżej **2 zadania w toku**.
 4. **Pracuj małymi commitami** w formacie Conventional Commits (sekcja 6). Wypychaj zmiany wcześnie. Jeśli chcesz opinii przed skończeniem, otwórz PR jako *draft*.
-5. **Otwórz Pull Request** z szablonu, **gdy tylko zadanie jest gotowe**, z `Closes #12` w opisie, i przesuń kartę do **In Review**. Nie czekaj z tym do końca tygodnia. Ostateczny termin to **wtorek 22:00**, żeby zadanie zostało przejrzane przed środowym spotkaniem.
+5. **Otwórz Pull Request** z szablonu, **gdy tylko zadanie jest gotowe**, z `Closes #[number]` w opisie. Karta sama przejdzie do **In Review** (PR otwarty jako *draft* jej nie przesuwa, dopiero **Ready for review**). Ostateczny termin to **wtorek 22:00**, żeby zadanie zostało przejrzane przed środowym spotkaniem.
 6. **Review.** PR przegląda właściciel obszaru albo zastępca (obaj są wpisani w `CODEOWNERS`, wystarczy akceptacja jednego), **w miarę możliwości w ciągu 24 godzin**, najpóźniej w ciągu 48 godzin. PR-y otwarte do wtorku 22:00 muszą być przejrzane **do środy 14:00**. Gdy autor jest właścicielem obszaru, review robi zastępca. Zadania `docs` i `chore` może zatwierdzić dowolna osoba z zespołu.
-7. **Merge.** Po akceptacji i zielonym CI autor scala PR opcją **Squash and merge** i usuwa gałąź. Issue zamyka się automatycznie, a karta przechodzi do **Done**.
+7. **Merge.** Po akceptacji i zielonym CI autor scala PR opcją **Squash and merge**. Gałąź jest usuwana automatycznie, issue zamyka się też automatycznie, a karta przechodzi do **Done**.
 
 ### Gdy coś idzie nie tak
 
-* **Blokada** (czekasz na kogoś albo coś nie działa): dodaj etykietę `blocked` i napisz na `#pomoc` na Discordzie **od razu**, nie dopiero w środę.
+* **Blokada** (czekasz na kogoś albo coś nie działa): dodaj etykietę `blocked` i napisz na `#pomoc` na Discordzie **od razu**.
 * **Nie zdążysz w tym tygodniu:** napisz o tym na Discordzie **najpóźniej w niedzielę wieczorem**, żeby zadanie można było podzielić, przekazać albo komuś pomóc.
 * **Potrzebna decyzja zespołu:** dodaj etykietę `needs-decision`; temat trafi na środowe spotkanie.
 
@@ -59,7 +61,7 @@ Issue może trafić do **To Do**, gdy:
 * [ ] ma jasne kryteria akceptacji („gotowe, gdy…”),
 * [ ] ma jedną etykietę `area:` i jedną `type:`,
 * [ ] nie zależy od niezrobionej pracy albo zależność zastępuje mock, nagrane dane lub uzgodniony kontrakt API,
-* [ ] mieści się w ok. 1–3 wieczorach pracy; większe zadania dzielimy.
+* [ ] mieści się w 6 godzinach pracy; większe zadania dzielimy.
 
 ## 4. Definition of Done
 
@@ -69,7 +71,8 @@ Zadanie jest zrobione, gdy:
 * [ ] PR zatwierdził właściciel obszaru albo zastępca (przy `docs` i `chore`: dowolna osoba z zespołu),
 * [ ] CI jest zielone, a nowa logika ma testy,
 * [ ] zmiana jest scalona do `main` i wdrożona,
-* [ ] dokumentacja (README, OpenAPI, ADR) jest zaktualizowana, jeśli zmiana jej dotyczy.
+* [ ] dokumentacja (README, OpenAPI, ADR) jest zaktualizowana, jeśli zmiana jej dotyczy,
+* [ ] czas pracy i review jest wpisany na tablicy (sekcja 12).
 
 ---
 
@@ -147,7 +150,7 @@ Etykiety zakładamy ręcznie w ustawieniach repozytorium (Issues → Labels).
 
 ## 8. Szablony issue
 
-Treść szablonów jest po angielsku, bo tak piszemy issue.
+Treść szablonów jest po angielsku
 
 ### `.github/ISSUE_TEMPLATE/feature.md`
 
@@ -166,18 +169,14 @@ assignees: ''
 
 ## Acceptance Criteria
 <!-- The task is done when... Each item must be verifiable. -->
+
 - [ ] 
 - [ ] 
 
-## Technical Notes
-<!-- Hints, constraints, links to ADRs or API contracts.
-E.g. "Use Leaflet", "Consumer group: tracking", "See ADR-001". -->
 
-## Dependencies
-<!-- Blocked by #..., or the mock / recorded data to use instead. Write "None" if independent. -->
-
-## Size
-<!-- S (≤ 1 evening) / M (2–3 evenings). Anything larger must be split. -->
+## Notes
+<!-- size (S - 0.5-2h,  M - 2.5-4h,  L - 4.5-6h) -->
+<!-- Optional: technical hints, links to ADRs, dependencies (Blocked by #...). -->
 ```
 
 ### `.github/ISSUE_TEMPLATE/bug.md`
@@ -196,17 +195,9 @@ assignees: ''
 
 ## Steps to Reproduce
 1. 
-2. 
-3. 
 
 ## Expected Behavior
-<!-- What should happen? -->
-
-## Actual Behavior
-<!-- What happens instead? Include logs, stack traces or screenshots. -->
-
-## Environment
-<!-- local (docker compose) / server; branch or commit; browser if frontend. -->
+<!-- What should happen instead? Optional: where (local / server, branch). -->
 ```
 
 ### `.github/ISSUE_TEMPLATE/task.md`
@@ -248,28 +239,22 @@ blank_issues_enabled: false
 ### `.github/PULL_REQUEST_TEMPLATE.md`
 
 ```markdown
-## Context
-<!-- Why is this change needed? -->
-
 Closes #
 
 ## What Changed
-<!-- The technical changes and any design decisions made in this PR. -->
+<!-- What and why, in a few bullets. -->
+
 - 
+
 - 
 
 ## How to Test
-<!-- Steps for the reviewer to verify the change locally. -->
+<!-- Steps for the reviewer. For frontend: add a screenshot. -->
+
 1. 
 
-## Screenshots
-<!-- Frontend changes only. Delete this section otherwise. -->
-
 ## Checklist
-- [ ] PR title follows Conventional Commits (it becomes the commit on `main`)
-- [ ] Tests added or updated, and passing locally
-- [ ] Application builds and starts with `docker compose up`
-- [ ] Documentation / ADR updated, or not needed
+- [ ] Tests added or updated, or not needed
 - [ ] No secrets, tokens or `.env` values committed
 
 ## AI Usage
@@ -309,26 +294,27 @@ Closes #
 Plik `.github/CODEOWNERS` przypisuje katalogi do obszarów. Przy każdym katalogu wpisujemy **właściciela i zastępcę**, więc akceptacja jednego z nich wystarcza, a właściciel nie musi zatwierdzać własnego PR-a.
 
 ```
-# Strumień zdarzeń i czas rzeczywisty: Jakub, zastępca Kacper
-/backend/libs/events/                 @jakub-jurkian @Kackor11>
-/backend/services/tracking-service/   @jakub-jurkian @Kackor11>
+# Event Streaming & Real-time: Jakub, backup Kacper
+/backend/libs/events/                 @jakub-jurkian @Kackor11
+/backend/services/tracking-service/   @jakub-jurkian @Kackor11
 
-# Frontend: Jakub, zastępca Tomasz
+# Frontend: Jakub, backup Tomasz
 /frontend/                            @jakub-jurkian @TomaszDylik
 
-# Dane i analityka: Kacper, zastępca Marcel
-/backend/services/stats-service/      @Kackor11> @HolySsquirrell
+# Data & Analytics: Kacper, backup Marcel
+/backend/services/stats-service/      @Kackor11 @HolySsquirrell
 
-# Integracja z ZTM: Marcel, zastępca Kacper
-/backend/services/ingest-service/     @HolySsquirrell @Kackor11>
-/fixtures/                            @HolySsquirrell @Kackor11>
+# Integration with ZTM API: Marcel, backup Kacper
+/backend/services/ingest-service/     @HolySsquirrell @Kackor11
+/fixtures/                            @HolySsquirrell @Kackor11
 
-# Infrastruktura i jakość: Marcel, zastępca Tomasz
+# Infrastructure & quality: Marcel, backup: Tomasz
 /infra/                               @HolySsquirrell @TomaszDylik
 /.github/                             @HolySsquirrell @TomaszDylik
 /backend/build-logic/                 @HolySsquirrell @TomaszDylik
+/scripts/                             @HolySsquirrell @TomaszDylik
 
-# Użytkownicy i bezpieczeństwo: Tomasz, zastępca Jakub
+# Users & Security: Tomasz, backup: Jakub
 /backend/services/trips-service/      @TomaszDylik @jakub-jurkian
 /infra/keycloak/                      @TomaszDylik @jakub-jurkian
 ```
@@ -337,9 +323,25 @@ Katalog `docs/` nie ma właściciela, więc dokumentację może zatwierdzić ka�
 
 ---
 
-## 12. Zmiany w tym procesie
+## 12. Rejestrowanie czasu
 
-Ten workflow to punkt startowy, a nie stałe prawo. co kilka tygodni sprawdzamy:
+Każdy zapisuje, ile godzin poświęcił na zadania i na review Pull Requestów. Na tablicy projektu każde zadanie ma dwie kolumny:
+
+|Kolumna|Co wpisujemy|Kto|
+|-|-|-|
+|**Spent time (h)**|godziny pracy nad zadaniem: kod, testy, dokumentacja|osoba przypisana do zadania|
+|**Review time (h)**|godziny spędzone na review PR-a tego zadania|recenzent (jeśli było kilku, dopisujemy do sumy)|
+
+* Wpisuj czas **na bieżąco**, najpóźniej przy przesunięciu karty do **In Review** (Spent time) i po zakończeniu review (Review time).
+* Czas podajemy w godzinach, z dokładnością do 0,5 h (np. `1.5`).
+* Zaokrąglaj uczciwie. Te dane służą do planowania i do sprawdzenia, czy zadania mieszczą się w limicie z *Definition of Ready*, a nie do oceniania osób.
+* Przed środowym spotkaniem sprawdź, czy wszystkie twoje zadania i review mają wpisany czas. Podsumowanie generuje skrypt `pobierz_zadania.py`.
+
+---
+
+## 13. Zmiany w tym procesie
+
+Ten workflow to punkt startowy, a nie stałe prawo. co jakiś czas sprawdzamy:
 
 * ile trwa zadanie od wzięcia do merge'a,
 * czy PR-y czekają na review i na kogo,

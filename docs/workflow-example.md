@@ -37,15 +37,11 @@ so tracking-service must keep the latest known position of every vehicle.
 - [ ] an older reading (earlier `readAt`) does not overwrite a newer one
 - [ ] integration test with Testcontainers (Kafka + Redis) covers both cases
 
-## Technical Notes
+## Notes
 - Event format: see ADR-001 and `backend/libs/events/VehiclePositionEvent`
 - Use the recorded sample `fixtures/ztm/2026-10-27-morning.jsonl.gz` for test data
-
-## Dependencies
-None. Uses recorded data instead of ingest-service.
-
-## Size
-M (2–3 evenings)
+- Dependencies: none, uses recorded data instead of ingest-service
+- Size: L (4.5-6h)
 ```
 
 Etykiety: `area: streaming`, `type: feature`. GitHub nadaje numer, w przykładzie **#14**. Issue trafia na tablicę do kolumny **Backlog**.
@@ -62,7 +58,7 @@ Właściciel sprawdza Definition of Ready:
 * [x] kryteria akceptacji da się sprawdzić,
 * [x] ma etykiety `area:` i `type:`,
 * [x] nie zależy od niezrobionej pracy, bo zamiast ingest-service używa nagranych danych,
-* [x] mieści się w 2–3 wieczorach.
+* [x] mieści się w 6 godzinach pracy.
 
 Wszystko się zgadza, więc przesuwa kartę do **To Do**. Jeśli czegoś brakuje, dopisuje to albo zadaje pytanie w komentarzu.
 
@@ -70,12 +66,11 @@ Wszystko się zgadza, więc przesuwa kartę do **To Do**. Jeśli czegoś brakuje
 
 ## Krok 3. Wzięcie zadania
 
-**Kto:** autor. **Kolumna:** To Do → **In Progress**. **Kiedy:** na środowym spotkaniu albo dowolnie w tygodniu.
+**Kto:** autor. **Kolumna:** To Do → **In Progress** (automatycznie). **Kiedy:** na środowym spotkaniu albo dowolnie w tygodniu.
 
-1. Na issue: **Assignees → przypisz siebie**.
-2. Na tablicy przesuń kartę do **In Progress**.
-3. Sprawdź limit: masz najwyżej 2 zadania w toku.
-4. Utwórz gałąź od aktualnego `main`:
+1. Na issue: **Assignees → przypisz siebie**. Karta sama przechodzi z **To Do** do **In Progress**, więc nie przesuwamy jej ręcznie.
+2. Sprawdź limit: masz najwyżej 2 zadania w toku.
+3. Utwórz gałąź od aktualnego `main`:
 
 ```bash
 git switch main
@@ -137,16 +132,12 @@ git push --force-with-lease
 
 ## Krok 5. Otwarcie Pull Requesta
 
-**Kto:** autor. **Kolumna:** In Progress → **In Review**. **Kiedy:** gdy tylko zadanie jest gotowe; najpóźniej we wtorek do 22:00.
+**Kto:** autor. **Kolumna:** In Progress → **In Review** (automatycznie). **Kiedy:** gdy tylko zadanie jest gotowe; najpóźniej we wtorek do 22:00.
 
 Na GitHubie: **Compare & pull request** (albo `gh pr create`). Tytuł w formacie Conventional Commits, bo po squash merge stanie się commitem na `main`. Wypełniony szablon:
 
 ```markdown
 Title: feat(tracking): store latest vehicle position in Redis
-
-## Context
-The live map needs the current position of every vehicle. This adds the first
-Kafka consumer in tracking-service.
 
 Closes #14
 
@@ -162,10 +153,7 @@ Closes #14
 3. `docker compose exec redis redis-cli GET vehicle:1234` returns the latest position
 
 ## Checklist
-- [x] PR title follows Conventional Commits (it becomes the commit on `main`)
-- [x] Tests added or updated, and passing locally
-- [x] Application builds and starts with `docker compose up`
-- [x] Documentation / ADR updated, or not needed
+- [x] Tests added or updated, or not needed
 - [x] No secrets, tokens or `.env` values committed
 
 ## AI Usage
@@ -177,7 +165,7 @@ Please look closely at the Lua script in `LatestPositionRepository`. I chose it
 over a Redis transaction to avoid a race between two instances.
 ```
 
-Na tablicy przesuń kartę do **In Review**. GitHub sam poprosi o review właścicieli katalogu z pliku `CODEOWNERS`.
+Karta sama przechodzi do **In Review**, gdy PR jest otwarty i ma `Closes #14`. Przy PR-ze otwartym jako *draft* karta zostaje w **In Progress**, dopóki nie klikniesz **Ready for review**. Wpisz też na karcie godziny pracy w polu **Spent time (h)**. GitHub sam poprosi o review właścicieli katalogu z pliku `CODEOWNERS`.
 
 > W `CODEOWNERS` przy każdym katalogu wpisani są właściciel **i** zastępca (CONTRIBUTING.md, sekcja 11). Akceptacja jednego z nich wystarczy, więc właściciel nie musi zatwierdzać własnego PR-a.
 
@@ -247,7 +235,7 @@ Good idea, but stats-service does not need it yet. Created #21 to do it later.
 Fixed.
 ```
 
-Recenzent sprawdza poprawki i daje **Approve**.
+Recenzent sprawdza poprawki i daje **Approve**. Po review wpisuje na karcie swoje godziny w polu **Review time (h)**.
 
 ---
 
@@ -286,11 +274,11 @@ W punkcie „Stan prac” autor pokazuje efekt w 1–2 minuty, np. w `redis-cli`
 |-|-|-|-|
 |1. Issue|każdy|Backlog|szablon, etykiety `area:` + `type:`|
 |2. Doprecyzowanie|właściciel obszaru|→ To Do|Definition of Ready|
-|3. Wzięcie|autor|→ In Progress|przypisz się, max 2 zadania, gałąź `typ/nr-opis`|
+|3. Wzięcie|autor|→ In Progress (automat)|przypisz się do issue, max 2 zadania, gałąź `typ/nr-opis`|
 |4. Praca|autor|In Progress|małe commity, `push` wcześnie, `blocked` gdy trzeba|
-|5. PR|autor|→ In Review|gdy gotowe (najpóźniej wt. 22:00), `Closes #nr`, tytuł jak commit|
+|5. PR|autor|→ In Review (automat)|gdy gotowe (najpóźniej wt. 22:00), `Closes #nr`, tytuł jak commit, wpisz Spent time|
 |6. CI|automat|In Review|musi być zielone|
-|7. Review|właściciel albo zastępca (`docs`/`chore`: każdy)|In Review|w ciągu 24 h (najpóźniej 48 h / śr. 14:00), prefiksy komentarzy|
+|7. Review|właściciel albo zastępca (`docs`/`chore`: każdy)|In Review|w ciągu 24 h (najpóźniej 48 h / śr. 14:00), prefiksy komentarzy, wpisz Review time|
 |8. Poprawki|autor|In Review|odpowiedź na każdy komentarz|
 |9. Merge|autor|→ Done|squash, usuń gałąź, issue zamyka się samo|
 |10. Demo|autor|Done|pokaż na środowym spotkaniu|
@@ -299,11 +287,19 @@ W punkcie „Stan prac” autor pokazuje efekt w 1–2 minuty, np. w `redis-cli`
 
 ## Jednorazowa konfiguracja tablicy
 
-Żeby krok 9 działał automatycznie, w GitHub Projects włączamy wbudowane automatyzacje (**Project → ⋯ → Workflows**):
+Konfigurację robi raz obszar Infrastruktura i jakość.
+
+**1. Wbudowane automatyzacje** GitHub Projects (**Project → ⋯ → Workflows**):
 
 * **Item closed** → status **Done**,
 * **Pull request merged** → status **Done**,
 * **Auto-add to project** dla nowych issue z repozytorium → status **Backlog**.
 
-Przesunięcia do **To Do**, **In Progress** i **In Review** robimy ręcznie.
+**2. Workflow GitHub Actions** `.github/workflows/project-status.yml` (do dodania; na przypisanie osoby i otwarcie PR-a nie ma wbudowanej automatyzacji):
+
+* `issues: assigned`: jeśli karta jest w **To Do**, zmienia status na **In Progress**. Karty z **Backlog** nie rusza, żeby nie ominąć *Definition of Ready*.
+* `pull_request: opened, reopened, ready_for_review`: dla PR-a, który nie jest draftem, zmienia status issue z `Closes #nr` na **In Review**.
+* Potrzebuje tokenu z dostępem do projektu (PAT z zakresem `project` albo GitHub App) zapisanego w sekretach repozytorium jako `PROJECT_TOKEN`, bo domyślny `GITHUB_TOKEN` nie zapisuje do GitHub Projects.
+
+**Ręcznie zostaje** przesunięcie z **Backlog** do **To Do** (właściciel obszaru) oraz wpisanie godzin w polach **Spent time (h)** i **Review time (h)**.
 

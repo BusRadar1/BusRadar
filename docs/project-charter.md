@@ -25,7 +25,7 @@ Opóźnienia pochodzą z pola `delay` w API pozycji pojazdów. Detektor przejazd
 
 ## 4. Repozytorium
 
-https://github.com/TomaszDylik/team-project (monorepo: backend, frontend, infrastruktura, dokumentacja)
+https://github.com/BusRadar1/BusRadar (monorepo: backend, frontend, infrastruktura, dokumentacja)
 
 ## 5. Funkcjonalności planowane w semestrze
 
@@ -65,10 +65,10 @@ https://github.com/TomaszDylik/team-project (monorepo: backend, frontend, infras
 
 | Obszar | Narzędzia |
 |----------------------|------------------------------------------------------------|
-| Backend | Java 21, Spring Boot 4 (Web, Data JPA, Security / OAuth2 Resource Server), Spring for Apache Kafka, PostgreSQL (partycjonowanie tabel), Flyway, Redis |
+| Backend | Java 25, Spring Boot 4.1 (Web, Data JPA, Security / OAuth2 Resource Server), Spring for Apache Kafka, PostgreSQL (partycjonowanie tabel), Flyway, Redis |
 | Architektura | 4 serwisy: ingest-service, tracking-service (z detektorem przejazdów), stats-service, trips-service; zdarzenia przez Apache Kafka (topiki `vehicle-positions` i `stop-passages`), zapytania przez REST; wspólny moduł z formatem zdarzeń |
 | Źródło danych | otwarte dane ZTM w Gdańsku: pozycje pojazdów z opóźnieniem (`gpsPositions`), lista przystanków GTFS (współrzędne), opcjonalnie szacowane odjazdy (`departures`) |
-| Frontend | Angular, TypeScript, RxJS, Leaflet (mapa) |
+| Frontend | Angular 22, TypeScript, RxJS, Leaflet (mapa) |
 | Uwierzytelnianie | Keycloak (OpenID Connect, Authorization Code + PKCE) |
 | Testy | JUnit 5, Mockito, Testcontainers (PostgreSQL, Kafka, Redis), WireMock (zapisane odpowiedzi API), Playwright (E2E) |
 | Infrastruktura | Docker, Docker Compose, GitHub Actions (budowanie, testy, obrazy w GitHub Container Registry), serwer VPS |

@@ -45,6 +45,7 @@ replay_pid*
 .project
 .settings/
 .factorypath
+.kotlin/
 
 .env
 .env.*

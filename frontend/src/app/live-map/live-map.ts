@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, viewChild } from '@angular/core';
 import * as L from 'leaflet';
-
-const GDANSK_CENTER: L.LatLngTuple = [54.352, 18.6466];
-const GDANSK_ZOOM = 12;
+import { MAP_ZOOM, TRICITY_BOUNDS, TRICITY_CENTER } from './map-config';
 
 @Component({
   selector: 'app-live-map',
@@ -14,10 +12,17 @@ export class LiveMap implements AfterViewInit, OnDestroy {
   private map?: L.Map;
 
   ngAfterViewInit(): void {
-    this.map = L.map(this.container().nativeElement).setView(GDANSK_CENTER, GDANSK_ZOOM);
+    this.map = L.map(this.container().nativeElement, {
+      maxBounds: TRICITY_BOUNDS,
+      maxBoundsViscosity: 1,
+      minZoom: MAP_ZOOM.min,
+      maxZoom: MAP_ZOOM.max,
+    }).setView(TRICITY_CENTER, MAP_ZOOM.initial);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
+      bounds: TRICITY_BOUNDS,
+      minZoom: MAP_ZOOM.min,
+      maxZoom: MAP_ZOOM.max,
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);

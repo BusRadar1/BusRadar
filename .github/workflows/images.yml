@@ -1,0 +1,68 @@
+name: Publish images
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: publish-images-main
+  queue: max
+
+jobs:
+  publish:
+    name: Publish ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ingest
+            context: ./backend
+            module: ingest-service
+          - name: tracking
+            context: ./backend
+            module: tracking-service
+          - name: stats
+            context: ./backend
+            module: stats-service
+          - name: trips
+            context: ./backend
+            module: trips-service
+          - name: frontend
+            context: ./frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set image name
+        id: image
+        shell: bash
+        env:
+          OWNER: ${{ github.repository_owner }}
+          IMAGE_NAME: ${{ matrix.name }}
+        run: echo "name=ghcr.io/${OWNER,,}/busradar-${IMAGE_NAME}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and publish
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          build-args: ${{ matrix.module && format('MODULE={0}', matrix.module) || '' }}
+          push: true
+          tags: |
+            ${{ steps.image.outputs.name }}:${{ github.sha }}
+            ${{ steps.image.outputs.name }}:latest
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}

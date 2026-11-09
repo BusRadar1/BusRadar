@@ -22,7 +22,7 @@ def get_folder():
 
 
 def log(message):
-    clock = time.strftime("%H:%M:%S") 
+    clock = time.strftime("%H:%M:%S")
     print(clock, message, flush=True)
 
 
@@ -43,7 +43,8 @@ def make_line(fetched_at, data):
 
 
 def save(folder, fetched_at, line):
-    file_name = fetched_at.strftime("%Y-%m-%d-%H") + ".jsonl.gz"
+    local_time = fetched_at.astimezone()
+    file_name = local_time.strftime("%Y-%m-%d-%H") + ".jsonl.gz"
     path = os.path.join(folder, file_name)
     with gzip.open(path, "ab") as file:
         file.write(line.encode("utf-8"))

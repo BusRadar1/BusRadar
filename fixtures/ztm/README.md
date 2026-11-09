@@ -4,7 +4,7 @@ Recorded responses of the ZTM Gdańsk API. They let the team develop and test wi
 
 ## File format
 
-- One file per hour, named `YYYY-MM-DD-HH.jsonl.gz`. The hour is in **UTC** (Gdańsk is UTC+1 in winter and UTC+2 in summer).
+- One file per hour, named `YYYY-MM-DD-HH.jsonl.gz`. The hour is the **local time of the computer that records** (Gdańsk time on a laptop; on a Linux server set `TZ=Europe/Warsaw`), the same as the times in the script log. `fetchedAt` inside the file is always **UTC**.
 - gzip-compressed JSON Lines: one line per API call.
 - Each line: `{"fetchedAt": "2026-11-09T06:00:20Z", "body": <whole API response>}`.
 - `body` is the response of `https://ckan2.multimediagdansk.pl/gpsPositions?v=2`: an object with `lastUpdate` and a `vehicles` list (position, speed, direction, line, trip, delay in seconds).

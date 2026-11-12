@@ -10,7 +10,18 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jun
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junitPlatform" }
 spring-boot-webmvc = { module = "org.springframework.boot:spring-boot-starter-webmvc" }
 spring-boot-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-kafka = { module = "org.springframework.boot:spring-boot-starter-kafka" }
+spring-boot-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
+spring-boot-flyway = { module = "org.springframework.boot:spring-boot-starter-flyway" }
+flyway-database-postgresql = { module = "org.flywaydb:flyway-database-postgresql" }
 spring-boot-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-junit-jupiter" }
+testcontainers-postgresql = { module = "org.testcontainers:testcontainers-postgresql" }
+testcontainers-kafka = { module = "org.testcontainers:testcontainers-kafka" }
+awaitility = { module = "org.awaitility:awaitility" }
+postgresql = { module = "org.postgresql:postgresql" }
+lombok = { module = "org.projectlombok:lombok" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }

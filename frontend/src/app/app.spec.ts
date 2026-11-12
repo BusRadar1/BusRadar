@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+import * as L from 'leaflet';
 import { App } from './app';
+import { CLEAN_LAYER_FACTORY } from './live-map/base-layers';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [
+        { provide: CLEAN_LAYER_FACTORY, useValue: () => Promise.resolve(L.layerGroup()) },
+      ],
     }).compileComponents();
   });
 

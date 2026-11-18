@@ -1,6 +1,27 @@
 spring:
   application:
     name: stats-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/busradar}
+    username: ${SPRING_DATASOURCE_USERNAME:busradar}
+    password: ${SPRING_DATASOURCE_PASSWORD:busradar}
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: stats
+      auto-offset-reset: earliest # starts from the earliest offset, so no history is missed
+      max-poll-records: 500 # How many messages to grab in one batch
+      # ErrorHandlingDeserializer as the primary deserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      enable-auto-commit: false # commit only after the listener returns
+      properties:
+        # Jackson 3 deserializer. JsonDeserializer is the deprecated Jackson 2 type.
+        "[spring.deserializer.value.delegate.class]": org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+        "[spring.json.trusted.packages]": "pl.busradar.events"
+        "[spring.json.value.default.type]": pl.busradar.events.VehiclePositionEvent
+    listener:
+      type: batch # Spring waits & gathers messages into a list before handing them to code
+      ack-mode: batch # commit the batch offset only after insertBatch returns
 
 server:
   port: ${SERVER_PORT:8084}

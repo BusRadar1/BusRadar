@@ -4,3 +4,8 @@ spring:
 
 server:
   port: ${SERVER_PORT:8082}
+
+ztm:
+  url: https://ckan2.multimediagdansk.pl/gpsPositions?v=2
+  connect-timeout: 5s
+  read-timeout: 10s

@@ -4,6 +4,7 @@ springBoot = "4.1.2"
 junit = "5.11.0"
 junitPlatform = "1.11.0"
 spotless = "8.10.4"
+wiremock = "3.13.2"
 
 [libraries]
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
@@ -11,6 +12,8 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 spring-boot-webmvc = { module = "org.springframework.boot:spring-boot-starter-webmvc" }
 spring-boot-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+wiremock = { module = "org.wiremock:wiremock-standalone", version.ref = "wiremock" }
+spring-boot-restclient = { module = "org.springframework.boot:spring-boot-starter-restclient" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }

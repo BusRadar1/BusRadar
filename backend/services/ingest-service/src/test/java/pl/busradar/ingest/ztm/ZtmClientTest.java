@@ -35,7 +35,7 @@ import pl.busradar.events.VehiclePositionEvent;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ObjectNode;
 
-@SpringBootTest
+@SpringBootTest(properties = "ingest.polling.enabled=false")
 @ExtendWith(OutputCaptureExtension.class)
 class ZtmClientTest {
 

@@ -1,6 +1,19 @@
 spring:
   application:
     name: ingest-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+      acks: all
+      compression-type: lz4
+      properties:
+        enable:
+          idempotence: true
+
+ingest:
+  poll-interval: 20s
 
 server:
   port: ${SERVER_PORT:8082}

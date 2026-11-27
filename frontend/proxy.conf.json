@@ -1,6 +1,22 @@
 {
-  "/api": {
+  "/api/ingest": {
     "target": "http://localhost:8082",
-    "secure": false
+    "secure": false,
+    "pathRewrite": { "^/api/ingest": "" }
+  },
+  "/api/tracking": {
+    "target": "http://localhost:8083",
+    "secure": false,
+    "pathRewrite": { "^/api/tracking": "" }
+  },
+  "/api/stats": {
+    "target": "http://localhost:8084",
+    "secure": false,
+    "pathRewrite": { "^/api/stats": "" }
+  },
+  "/api/trips": {
+    "target": "http://localhost:8085",
+    "secure": false,
+    "pathRewrite": { "^/api/trips": "" }
   }
 }
